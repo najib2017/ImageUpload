@@ -19,13 +19,27 @@ class UploadImage extends React.Component {
     console.log('image-', this.state.imagePreviewUrl);
 
     obj = {
-    	name: this.state.file.name,
-    	img:this.state.file.imagePreviewUrl
+      name: this.state.file.name,
+      img:this.state.file.imagePreviewUrl
     }
     this.props.dispatch(uploadImage(obj));
   }
 
-  
+  handleImageChange(e) {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+
+    reader.readAsDataURL(file)
+  }
 
   render() {
     let {imagePreviewUrl} = this.state;
@@ -40,15 +54,15 @@ class UploadImage extends React.Component {
       
 
       <div className="previewComponent">
-      	<form onSubmit = {(e) => this.handleSubmit(e)}>
-      		<input className="fileInput" type="file"  />
-      		<button className="submitButton" type="submit" onClick={(e)=>this.handleSubmit(e)}>
-      			Upload Image</button>
-      	</form>
-      	<div className="imgPreview">
-      		{$imagePreview}
-      	</div>
-      </div>				
+        <form onSubmit = {(e) => this.handleSubmit(e)}>
+          <input className="fileInput" type="file" onChange={(e)=>this.handleImageChange(e)} />
+          <button className="submitButton" type="submit" onClick={(e)=>this.handleSubmit(e)}>
+            Upload Image</button>
+        </form>
+        <div className="imgPreview">
+          {$imagePreview}
+        </div>
+      </div>        
     )
   }
 }
