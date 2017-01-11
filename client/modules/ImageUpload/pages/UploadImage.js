@@ -19,8 +19,8 @@ class UploadImage extends React.Component {
     console.log('image-', this.state.imagePreviewUrl);
 
     obj = {
-      name: this.state.file.name,
-      img:this.state.file.imagePreviewUrl
+      name: this.state.file,
+      img: this.state.file.imagePreviewUrl
     }
     this.props.dispatch(uploadImage(obj));
   }
